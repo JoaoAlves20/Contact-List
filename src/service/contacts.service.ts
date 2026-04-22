@@ -12,7 +12,7 @@ class ContactsService {
             return contacts;
         } catch (error) {
             console.error("Error reading contacts file:", error);
-            return null; // Or throw an error to be handled by the controller
+            return null;
         }
     }
 
@@ -24,7 +24,7 @@ class ContactsService {
             return contacts.find(contact => contact.id === id);
         } catch (error) {
             console.error("Error reading contacts file:", error);
-            return null; // Or throw an error to be handled by the controller
+            return null;
         }
     }
 
@@ -32,7 +32,7 @@ class ContactsService {
         try {
             const data = await readFile(filename, 'utf-8');
             const contacts: contact[] = JSON.parse(data);
-    
+
             const id = contacts.length + 1;
     
             const newContact = { id, ...contact };
@@ -42,7 +42,41 @@ class ContactsService {
             return newContact;
         } catch (error) {
             console.error("Error adding contact to file:", error);
-            return null; // Or throw an error to be handled by the controller
+            return null;
+        }
+    }
+
+    async updateContact(id: number, contactUpdate: addContact) {
+        try {
+            const data = await readFile(filename, 'utf-8');
+            const contacts: contact[] = JSON.parse(data);
+
+            const findContact = contacts.find((value) => value.id === id);
+
+            const newContacts = contacts.map((value) => {
+                return value.id === id ? { ...findContact, ...contactUpdate }: value;
+            });
+
+            await writeFile(filename, JSON.stringify(newContacts, null, 2));
+            return { id, ...contactUpdate };
+        } catch (error) {
+            console.error("Error updating contact in file:", error);
+            return null;
+        }
+    }
+
+    async deleteContact(id: number) {
+        try {
+            const data = await readFile(filename, 'utf-8');
+            const contacts: contact[] = JSON.parse(data);
+
+            const newContacts = contacts.filter((value) => value.id !== id);
+
+            await writeFile(filename, JSON.stringify(newContacts, null, 2));
+            return true;
+        } catch (error) {
+            console.error("Error deleting contact from file:", error);
+            return false;
         }
     }
 }

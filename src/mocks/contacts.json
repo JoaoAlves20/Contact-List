@@ -7,20 +7,8 @@
   },
   {
     "id": 2,
-    "name": "Maria",
-    "email": "maria@example.com",
+    "name": "Erika",
+    "email": "erika@example.com",
     "phone": "987654321"
-  },
-  {
-    "id": 3,
-    "name": "Luiz",
-    "email": "luiz@example.com",
-    "phone": "4569345"
-  },
-  {
-    "id": 4,
-    "name": "Vander",
-    "email": "vander@example.com",
-    "phone": "4569345"
   }
 ]

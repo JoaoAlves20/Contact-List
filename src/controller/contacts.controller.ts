@@ -1,13 +1,21 @@
 import type { RequestHandler } from "express";
 
 import ContactsService from "../service/contacts.service.ts";
+import { schemaContacts, schemaContact, schemaAddContact } from "../validation/schema.zod.ts";
 
 class ContactsController {
-    findAll: RequestHandler = async (request, response) => {
+    findAll: RequestHandler = async (_, response) => {
         const contacts = await ContactsService.findAll();
 
         if (!contacts) {
             return response.status(404).json({ message: 'Contacts not found' });
+        }
+
+        const { success } = schemaContacts.safeParse(contacts);
+
+        if (!success) {
+            console.error({ errorValidation: 'Some data is incorrect (typeof or value)' });
+            return response.status(400).json({ message: 'An error occurred in the data' });
         }
         
         response.json(contacts);
@@ -26,6 +34,13 @@ class ContactsController {
             return response.status(404).json({ message: 'Contact not found' });
         }
 
+        const { success } = schemaContact.safeParse(contact);
+
+        if (!success) {
+            console.error({ errorValidation: 'Some data is incorrect (typeof or value)' });
+            return response.status(400).json({ message: 'An error occurred in the data' });
+        }
+
         response.json(contact);
     }
 
@@ -34,6 +49,13 @@ class ContactsController {
 
         if (!contact) {
             return response.status(400).json({ message: 'Information of contact is required' });
+        }
+
+        const { success } = schemaAddContact.safeParse(contact);
+
+        if (!success) {
+            console.error({ errorValidation: 'Some data is incorrect (typeof or value)' });
+            return response.status(400).json({ message: 'An error occurred in the data' });
         }
 
         const newContact = await ContactsService.addContact(contact);
@@ -51,6 +73,17 @@ class ContactsController {
 
         if (!id) {
             return response.status(400).json({ message: 'ID is required' });
+        }
+
+        if (!contactUpdate) {
+            return response.status(400).json({ message: 'Information of contact is required' });
+        }
+
+        const { success } = schemaAddContact.safeParse(contactUpdate);
+
+        if (!success) {
+            console.error({ errorValidation: 'Some data is incorrect (typeof or value)' });
+            return response.status(400).json({ message: 'An error occurred in the data' });
         }
 
         const updatedContact = await ContactsService.updateContact(+id, contactUpdate);
@@ -75,9 +108,16 @@ class ContactsController {
             return response.status(400).json({ message: 'Contact not found' });
         }
 
-        const success = await ContactsService.deleteContact(+id);
+        const { success } = schemaContact.safeParse(contact);
 
         if (!success) {
+            console.error({ errorValidation: 'Some data is incorrect (typeof or value)' });
+            return response.status(400).json({ message: 'An error occurred in the data' });
+        }
+
+        const successDelete = await ContactsService.deleteContact(+id);
+
+        if (!successDelete) {
             return response.status(404).json({ message: 'Contact not found or delete failed' });
         }
 

@@ -1,6 +1,6 @@
 import { readFile, writeFile } from "fs/promises"
 
-import type { addContact, contact } from "../interface/contact.interface.ts";
+import type { addContact, contacts } from "../interface/contact.interface.ts";
 
 const filename = './src/mocks/contacts.json';
 
@@ -19,7 +19,7 @@ class ContactsService {
     async findById(id: number) {
         try {
             const data = await readFile(filename, 'utf-8');
-            const contacts: contact[] = JSON.parse(data);
+            const contacts: contacts = JSON.parse(data);
     
             return contacts.find(contact => contact.id === id);
         } catch (error) {
@@ -31,7 +31,7 @@ class ContactsService {
     async addContact(contact: addContact) {
         try {
             const data = await readFile(filename, 'utf-8');
-            const contacts: contact[] = JSON.parse(data);
+            const contacts: contacts = JSON.parse(data);
 
             const id = contacts.length + 1;
     
@@ -49,7 +49,7 @@ class ContactsService {
     async updateContact(id: number, contactUpdate: addContact) {
         try {
             const data = await readFile(filename, 'utf-8');
-            const contacts: contact[] = JSON.parse(data);
+            const contacts: contacts = JSON.parse(data);
 
             const findContact = contacts.find((value) => value.id === id);
 
@@ -68,7 +68,7 @@ class ContactsService {
     async deleteContact(id: number) {
         try {
             const data = await readFile(filename, 'utf-8');
-            const contacts: contact[] = JSON.parse(data);
+            const contacts: contacts = JSON.parse(data);
 
             const newContacts = contacts.filter((value) => value.id !== id);
 

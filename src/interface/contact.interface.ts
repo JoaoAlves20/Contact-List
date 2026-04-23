@@ -1,12 +1,7 @@
-export interface contact {
-    id: number,
-    name: string,
-    email: string,
-    phone: string
-}
+import z from 'zod';
 
-export interface addContact {
-    name: string,
-    email: string,
-    phone: string
-}
+import { schemaContacts, schemaAddContact } from '../validation/schema.zod.ts';
+
+export type contacts = z.infer<typeof schemaContacts>;
+
+export type addContact = z.infer<typeof schemaAddContact>;

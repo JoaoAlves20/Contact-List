@@ -4,7 +4,7 @@ Essa API serve apenas para testar meus conhecimentos estudados no curso da B7web
 O projeto se baseia em uma API em NodeJS com TypeScript, onde consigo fazer todo o CRUD de uma lista de contatos, que estão salvos em um arquivo JSON.
 
 ## Tecnologias
-- NodeJS
+- NodeJS (Express, fs, Zod)
 - TypeScript
 - JSON
 - Gemini CLI (pair programmer) - teste

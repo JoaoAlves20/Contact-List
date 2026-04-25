@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
 
 import ContactsService from "../service/contacts.service.ts";
-import { schemaContacts, schemaContact, schemaAddContact } from "../validation/schema.zod.ts";
+import * as schema from "../validation/schema.zod.ts";
 
 class ContactsController {
     findAll: RequestHandler = async (_, response) => {
@@ -11,7 +11,7 @@ class ContactsController {
             return response.status(404).json({ message: 'Contacts not found' });
         }
 
-        const { success } = schemaContacts.safeParse(contacts);
+        const { success } = schema.schemaContacts.safeParse(contacts);
 
         if (!success) {
             console.error({ errorValidation: 'Some data is incorrect (typeof or value)' });
@@ -34,7 +34,7 @@ class ContactsController {
             return response.status(404).json({ message: 'Contact not found' });
         }
 
-        const { success } = schemaContact.safeParse(contact);
+        const { success } = schema.pattern.safeParse(contact);
 
         if (!success) {
             console.error({ errorValidation: 'Some data is incorrect (typeof or value)' });
@@ -51,7 +51,7 @@ class ContactsController {
             return response.status(400).json({ message: 'Information of contact is required' });
         }
 
-        const { success } = schemaAddContact.safeParse(contact);
+        const { success } = schema.schemaCreate.safeParse(contact);
 
         if (!success) {
             console.error({ errorValidation: 'Some data is incorrect (typeof or value)' });
@@ -79,7 +79,7 @@ class ContactsController {
             return response.status(400).json({ message: 'Information of contact is required' });
         }
 
-        const { success } = schemaAddContact.safeParse(contactUpdate);
+        const { success } = schema.schemaUpdate.safeParse(contactUpdate);
 
         if (!success) {
             console.error({ errorValidation: 'Some data is incorrect (typeof or value)' });
@@ -108,7 +108,7 @@ class ContactsController {
             return response.status(400).json({ message: 'Contact not found' });
         }
 
-        const { success } = schemaContact.safeParse(contact);
+        const { success } = schema.pattern.safeParse(contact);
 
         if (!success) {
             console.error({ errorValidation: 'Some data is incorrect (typeof or value)' });

@@ -1,6 +1,6 @@
 import { readFile, writeFile } from "fs/promises"
 
-import type { addContact, contacts } from "../interface/contact.interface.ts";
+import type { create, contacts, update } from "../types/contact.type.ts";
 
 const filename = './src/mocks/contacts.json';
 
@@ -8,7 +8,7 @@ class ContactsService {
     async findAll() {
         try {
             const data = await readFile(filename, 'utf-8');        
-            const contacts = JSON.parse(data);
+            const contacts: contacts = JSON.parse(data);
             return contacts;
         } catch (error) {
             console.error("Error reading contacts file:", error);
@@ -28,7 +28,7 @@ class ContactsService {
         }
     }
 
-    async addContact(contact: addContact) {
+    async addContact(contact: create) {
         try {
             const data = await readFile(filename, 'utf-8');
             const contacts: contacts = JSON.parse(data);
@@ -46,7 +46,7 @@ class ContactsService {
         }
     }
 
-    async updateContact(id: number, contactUpdate: addContact) {
+    async updateContact(id: number, contactUpdate: update) {
         try {
             const data = await readFile(filename, 'utf-8');
             const contacts: contacts = JSON.parse(data);

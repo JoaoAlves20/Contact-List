@@ -15,7 +15,7 @@ class ContactsController {
 
         if (!success) {
             console.error({ errorValidation: 'Some data is incorrect (typeof or value)' });
-            return response.status(400).json({ message: 'An error occurred in the data' });
+            return response.status(500).json({ message: 'An error occurred in the data' });
         }
         
         response.status(200).json(contacts);
@@ -38,7 +38,7 @@ class ContactsController {
 
         if (!success) {
             console.error({ errorValidation: 'Some data is incorrect (typeof or value)' });
-            return response.status(400).json({ message: 'An error occurred in the data' });
+            return response.status(500).json({ message: 'An error occurred in the data' });
         }
 
         response.status(200).json(contact);
@@ -55,7 +55,7 @@ class ContactsController {
 
         if (!success) {
             console.error({ errorValidation: 'Some data is incorrect (typeof or value)' });
-            return response.status(400).json({ message: 'An error occurred in the data' });
+            return response.status(500).json({ message: 'An error occurred in the data' });
         }
 
         const newContact = await ContactsService.addContact(contact);
@@ -83,7 +83,7 @@ class ContactsController {
 
         if (!success) {
             console.error({ errorValidation: 'Some data is incorrect (typeof or value)' });
-            return response.status(400).json({ message: 'An error occurred in the data' });
+            return response.status(500).json({ message: 'An error occurred in the data' });
         }
 
         const updatedContact = await ContactsService.updateContact(+id, contactUpdate);
@@ -112,7 +112,7 @@ class ContactsController {
 
         if (!success) {
             console.error({ errorValidation: 'Some data is incorrect (typeof or value)' });
-            return response.status(400).json({ message: 'An error occurred in the data' });
+            return response.status(500).json({ message: 'An error occurred in the data' });
         }
 
         const successDelete = await ContactsService.deleteContact(+id);

@@ -51,9 +51,9 @@ class ContactsService {
             const data = await readFile(filename, 'utf-8');
             const contacts: contacts = JSON.parse(data);
 
-            const findContact = contacts.find((value) => value.id === id);
+            const findContact = contacts.find(value => value.id === id);
 
-            const newContacts = contacts.map((value) => {
+            const newContacts = contacts.map(value => {
                 return value.id === id ? { ...findContact, ...contactUpdate }: value;
             });
 
@@ -70,7 +70,7 @@ class ContactsService {
             const data = await readFile(filename, 'utf-8');
             const contacts: contacts = JSON.parse(data);
 
-            const newContacts = contacts.filter((value) => value.id !== id);
+            const newContacts = contacts.filter(value => value.id !== id);
 
             await writeFile(filename, JSON.stringify(newContacts, null, 2));
             return true;

@@ -18,7 +18,7 @@ class ContactsController {
             return response.status(400).json({ message: 'An error occurred in the data' });
         }
         
-        response.json(contacts);
+        response.status(200).json(contacts);
     }
 
     findById: RequestHandler = async (request, response) => {
@@ -41,7 +41,7 @@ class ContactsController {
             return response.status(400).json({ message: 'An error occurred in the data' });
         }
 
-        response.json(contact);
+        response.status(200).json(contact);
     }
 
     createContact: RequestHandler = async (request, response) => {

@@ -7,7 +7,7 @@ export const pattern = z.object({
     phone: z.string().trim()
 })
 
-export const schemaContacts = z.array(pattern);
+export const schemaContacts = pattern.array();
 
 export const schemaCreate = pattern.omit({ id: true });
 

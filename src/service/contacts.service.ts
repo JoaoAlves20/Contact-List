@@ -1,15 +1,12 @@
-import { readFile, writeFile } from "fs/promises"
+import { prisma } from "../lib/prisma.ts";
 
-import type { create, contacts, update } from "../types/contact.type.ts";
-
-const filename = './src/mocks/contacts.json';
+import type { create, contacts } from "../types/types.ts";
 
 class ContactsService {
     async findAll() {
         try {
-            const data = await readFile(filename, 'utf-8');        
-            const contacts: contacts = JSON.parse(data);
-            return contacts;
+            const data: contacts = await prisma.contact.findMany();
+            return data;
         } catch (error) {
             console.error("Error reading contacts file:", error);
             return null;
@@ -18,10 +15,8 @@ class ContactsService {
 
     async findById(id: number) {
         try {
-            const data = await readFile(filename, 'utf-8');
-            const contacts: contacts = JSON.parse(data);
-    
-            return contacts.find(contact => contact.id === id);
+            const data = await prisma.contact.findUnique({ where: { id } })
+            return data;
         } catch (error) {
             console.error("Error reading contacts file:", error);
             return null;
@@ -30,35 +25,21 @@ class ContactsService {
 
     async addContact(contact: create) {
         try {
-            const data = await readFile(filename, 'utf-8');
-            const contacts: contacts = JSON.parse(data);
-
-            const id = contacts.length + 1;
-    
-            const newContact = { id, ...contact };
-            contacts.push(newContact);
-    
-            await writeFile(filename, JSON.stringify(contacts, null, 2));
-            return newContact;
+            const data = await prisma.contact.create({ data: contact });
+            return data;
         } catch (error) {
             console.error("Error adding contact to file:", error);
             return null;
         }
     }
 
-    async updateContact(id: number, contactUpdate: update) {
+    async updateContact(id: number, contactUpdate: create) {
         try {
-            const data = await readFile(filename, 'utf-8');
-            const contacts: contacts = JSON.parse(data);
-
-            const findContact = contacts.find(value => value.id === id);
-
-            const newContacts = contacts.map(value => {
-                return value.id === id ? { ...findContact, ...contactUpdate }: value;
-            });
-
-            await writeFile(filename, JSON.stringify(newContacts, null, 2));
-            return { id, ...contactUpdate };
+            const data = await prisma.contact.update({
+                where: {id},
+                data: contactUpdate
+            })
+            return data;
         } catch (error) {
             console.error("Error updating contact in file:", error);
             return null;
@@ -67,13 +48,8 @@ class ContactsService {
 
     async deleteContact(id: number) {
         try {
-            const data = await readFile(filename, 'utf-8');
-            const contacts: contacts = JSON.parse(data);
-
-            const newContacts = contacts.filter(value => value.id !== id);
-
-            await writeFile(filename, JSON.stringify(newContacts, null, 2));
-            return true;
+            const data = await prisma.contact.delete({ where: { id } });
+            return data;
         } catch (error) {
             console.error("Error deleting contact from file:", error);
             return false;

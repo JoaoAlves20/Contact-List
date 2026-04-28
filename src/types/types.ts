@@ -6,4 +6,9 @@ export type contacts = z.infer<typeof schema.schemaContacts>;
 
 export type create = z.infer<typeof schema.schemaCreate>;
 
-export type update = z.infer<typeof schema.schemaUpdate>
+export type config = {
+    port: string | number,
+    database: {
+        url: string
+    }
+}

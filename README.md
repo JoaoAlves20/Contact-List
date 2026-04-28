@@ -80,20 +80,6 @@ DATABASE_URL="postgresql://[usuario]:[senha]@localhost:5432/[nome do banco]"
 
 ---
 
-### 🚀 Subir aplicação + banco
-
-```bash
-docker-compose up --build
-```
-
-Ou em background:
-
-```bash
-docker-compose up -d --build
-```
-
----
-
 ### 🌐 Acessar aplicação
 
 * API: http://localhost:3000
@@ -161,7 +147,6 @@ npx prisma migrate deploy
 
 * Migração de JSON → PostgreSQL
 * Integração com Prisma ORM
-* Containerização com Docker
 * Estrutura mais próxima de projetos reais
 
 ---
